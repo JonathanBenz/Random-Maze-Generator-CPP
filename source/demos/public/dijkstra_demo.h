@@ -10,7 +10,8 @@
 enum class PathType 
 { 
 	Shortest, 
-	Longest 
+	Longest, 
+	Both
 };
 
 class DijkstraDemo
@@ -23,6 +24,7 @@ public:
 
 	void RunShortestPathDemo();
 	void RunLongestPathDemo();
+	void RunBothDemos();
 
 	void UploadShortestPathVertices();
 	void UploadLongestPathVertices();
@@ -35,6 +37,7 @@ private:
 	DistanceGrid m_Grid;
 	AlgorithmContext m_RandomMazeGenerator;
 	App m_App;
+	PathType pathType = PathType::Longest;
 	Cell* m_StartingCell = nullptr;
 	Cell* m_GoalCell = nullptr;
 	bool bIsAppInitialized = false;

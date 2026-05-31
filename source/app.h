@@ -22,10 +22,7 @@ public:
         m_Grid->UploadGridVertices();
         //std::cout << *m_Grid << std::endl;
 
-        for (auto& callback : OnMazeGenerated)
-        {
-            callback();
-        }
+        for (auto& callback : OnMazeGenerated) callback();
     }
 
 public:

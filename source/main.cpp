@@ -9,7 +9,7 @@
 #include "demos/public/dijkstra_demo.h"
 
 /* Prototype Functions */
-void RunDijkstraDemo(PathType pathType);
+void RunDijkstraDemo(MazeAlgorithm mazeAlgo, PathType pathType);
 /* ******************* */
 
 int main()
@@ -23,26 +23,22 @@ int main()
 	randomMazeGenerator.SetStrategy(MazeAlgorithm::Sidewinder);
 	app.GenerateMaze();
 	std::cout << grid << std::endl;*/
+	//Graphics::InitShaders();
+	//Graphics::UpdateLoop();
+	//Graphics::CleanUp();
 
-	RunDijkstraDemo(PathType::Shortest);
-
-	Graphics::InitShaders();
-	Graphics::UpdateLoop();
-    Graphics::CleanUp();
+	RunDijkstraDemo(MazeAlgorithm::AldousBroder, PathType::Longest);
 }
 
-void RunDijkstraDemo(PathType pathType)
+void RunDijkstraDemo(MazeAlgorithm mazeAlgo, PathType pathType)
 {
 	DijkstraDemo dijkstra;
-	unsigned int rows = 64;
-	unsigned int columns = 64;
+	unsigned int rows = 20;
+	unsigned int columns = 20;
 	dijkstra.SetGridSize(rows, columns);
-	dijkstra.SetMazeGenAlgorithm(MazeAlgorithm::Sidewinder);
+	dijkstra.SetMazeGenAlgorithm(mazeAlgo);
 	dijkstra.SetStartCell(rows - 1, 0);
 	dijkstra.SetGoalCell(rows - 1, columns - 1);
-
-	Graphics::bShouldDrawShortestPath = false;
-	Graphics::bShouldDrawLongestPath = true;
 
 	switch (pathType)
 	{
@@ -53,5 +49,13 @@ void RunDijkstraDemo(PathType pathType)
 	case PathType::Longest:
 		dijkstra.RunLongestPathDemo();
 		break;
+
+	case PathType::Both:
+		dijkstra.RunBothDemos();
+		break;
 	}
+
+	Graphics::InitShaders();
+	Graphics::UpdateLoop();
+	Graphics::CleanUp();
 }

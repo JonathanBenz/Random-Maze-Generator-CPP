@@ -8,7 +8,9 @@ class Grid;
 enum class MazeAlgorithm
 {
 	BinaryTree,
-	Sidewinder
+	Sidewinder,
+	AldousBroder,
+	Wilson
 };
 
 class AlgorithmContext

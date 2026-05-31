@@ -98,8 +98,8 @@ public:
 
 			DrawGrid();
 
-			if (bShouldDrawShortestPath) DrawShortestPath();
 			if (bShouldDrawLongestPath) DrawLongestPath();
+			if (bShouldDrawShortestPath) DrawShortestPath();
 
 			// Check and call events/ callback functions, then swap the buffer
 			glfwPollEvents();
@@ -203,8 +203,6 @@ private:
 		{
 			App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
 			app->GenerateMaze();
-
-
 		}
 	}
 

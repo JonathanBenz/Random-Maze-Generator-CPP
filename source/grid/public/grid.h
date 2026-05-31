@@ -27,6 +27,7 @@ public:
 		}
 	}
 
+	// Returns the row array of Cells within a specific row. 
 	std::vector<Cell*> GetCellRow(unsigned int row);
 
 	template <typename Func>

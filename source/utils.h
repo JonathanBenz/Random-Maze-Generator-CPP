@@ -28,9 +28,17 @@ public:
 		return BoundedRand(2) == 0;
 	}
 
-	// Randomly pick an element from a vector of pointers
+	// Randomly pick an element
 	template <typename T>
 	static T* Sample(const std::vector<T*>& vec)
+	{
+		if (vec.empty()) return nullptr;
+		return vec.at((Utils::BoundedRand(vec.size())));
+	}
+
+	// Randomly pick an element
+	template <typename T>
+	static T Sample(const std::vector<T>& vec)
 	{
 		if (vec.empty()) return nullptr;
 		return vec.at((Utils::BoundedRand(vec.size())));

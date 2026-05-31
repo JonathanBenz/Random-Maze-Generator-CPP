@@ -45,6 +45,9 @@ void DijkstraDemo::SetGoalCell(int row, int column)
 
 void DijkstraDemo::RunShortestPathDemo()
 {
+	Graphics::bShouldDrawLongestPath = false;
+	Graphics::bShouldDrawShortestPath = true;
+
 	if (!m_StartingCell || !m_GoalCell) return;
 	if (!bIsAppInitialized) InitApp();
 
@@ -52,12 +55,15 @@ void DijkstraDemo::RunShortestPathDemo()
 
 	Distances distances = m_StartingCell->GetDistancesFromThisCell();
 	m_Grid.SetDistances(distances.PathTo(m_GoalCell));
-	std::cout << m_Grid << std::endl;
+	//std::cout << m_Grid << std::endl;
 }
 
 // TLDR: Get the furthest cell away from the furthest cell. 
 void DijkstraDemo::RunLongestPathDemo()
 {
+	Graphics::bShouldDrawShortestPath = false;
+	Graphics::bShouldDrawLongestPath = true;
+
 	if (!m_StartingCell) return;
 	if (!bIsAppInitialized) InitApp();
 
@@ -70,7 +76,28 @@ void DijkstraDemo::RunLongestPathDemo()
 	Cell* goalCell = newDistances.GetMaxCell();
 
 	m_Grid.SetDistances(newDistances.PathTo(goalCell));
-	std::cout << m_Grid << std::endl;
+	//std::cout << m_Grid << std::endl;
+}
+
+void DijkstraDemo::RunBothDemos()
+{
+	Graphics::bShouldDrawShortestPath = true;
+	Graphics::bShouldDrawLongestPath = true;
+
+	if (!m_StartingCell || !m_GoalCell) return;
+	if (!bIsAppInitialized) InitApp();
+
+	m_App.GenerateMaze();
+
+	// Shortest Path
+	Distances distances = m_StartingCell->GetDistancesFromThisCell();
+	m_Grid.SetDistances(distances.PathTo(m_GoalCell));
+
+	// Longest Path
+	Cell* newStartCell = distances.GetMaxCell();
+	Distances newDistances = newStartCell->GetDistancesFromThisCell();
+	Cell* goalCell = newDistances.GetMaxCell();
+	m_Grid.SetDistances(newDistances.PathTo(goalCell));
 }
 
 void DijkstraDemo::UploadShortestPathVertices()
