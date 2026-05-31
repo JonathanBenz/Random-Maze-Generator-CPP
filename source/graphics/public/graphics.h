@@ -51,20 +51,39 @@ public:
 		glfwSetFramebufferSizeCallback(Window, FramebufferSizeCallback);
 		glfwSetKeyCallback(Window, KeyCallback);
 		
-		// Enable depth testing 
+		// Enable depth testing and gamma correction
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_FRAMEBUFFER_SRGB);
 
 		return 1;
 	}
 
-	static void InitShader()
+	static void InitShaders()
 	{
-		MazeShader.SetupShader("shaders/vertex.vert", "shaders/fragment.frag");
-		glGenVertexArrays(1, &VAO);
-		glGenBuffers(1, &VBO);
-		glBindVertexArray(VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, Vertices.size() * sizeof(Vertex), Vertices.data(), GL_DYNAMIC_DRAW);
+		GridShader.SetupShader("shaders/vertex.vert", "shaders/grid.frag");
+		glGenVertexArrays(1, &GridVAO);
+		glGenBuffers(1, &GridVBO);
+		glBindVertexArray(GridVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, GridVBO);
+		glBufferData(GL_ARRAY_BUFFER, GridVertices.size() * sizeof(Vertex), GridVertices.data(), GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+		ShortestPathShader.SetupShader("shaders/vertex.vert", "shaders/path.frag");
+		glGenVertexArrays(1, &ShortestPathVAO);
+		glGenBuffers(1, &ShortestPathVBO);
+		glBindVertexArray(ShortestPathVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, ShortestPathVBO);
+		glBufferData(GL_ARRAY_BUFFER, ShortestPathVertices.size() * sizeof(Vertex), ShortestPathVertices.data(), GL_DYNAMIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+
+		LongestPathShader.SetupShader("shaders/vertex.vert", "shaders/path.frag");
+		glGenVertexArrays(1, &LongestPathVAO);
+		glGenBuffers(1, &LongestPathVBO);
+		glBindVertexArray(LongestPathVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, LongestPathVBO);
+		glBufferData(GL_ARRAY_BUFFER, LongestPathVertices.size() * sizeof(Vertex), LongestPathVertices.data(), GL_DYNAMIC_DRAW);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	}
@@ -74,15 +93,13 @@ public:
 		while (!glfwWindowShouldClose(Window))
 		{
 			// Render stuff here... 
-			glClearColor(0.f, 0.f, 0.f, 1.0f);
+			glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			MazeShader.use();
-			MazeShader.setFloat("uTime", static_cast<float>(glfwGetTime()));
-			glBindVertexArray(VAO);
-			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, Vertices.size() * sizeof(Vertex), Vertices.data(), GL_DYNAMIC_DRAW);
-			glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(Vertices.size()));
+			DrawGrid();
+
+			if (bShouldDrawShortestPath) DrawShortestPath();
+			if (bShouldDrawLongestPath) DrawLongestPath();
 
 			// Check and call events/ callback functions, then swap the buffer
 			glfwPollEvents();
@@ -90,16 +107,61 @@ public:
 		}
 	}
 
-	static void AddLine(float x1, float y1, float x2, float y2)
+	static void DrawGrid()
 	{
-		Vertices.emplace_back(NormalizeX(x1), NormalizeY(y1));
-		Vertices.emplace_back(NormalizeX(x2), NormalizeY(y2));
+		GridShader.use();
+		GridShader.setFloat("uTime", static_cast<float>(glfwGetTime()));
+		glBindVertexArray(GridVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, GridVBO);
+		glBufferData(GL_ARRAY_BUFFER, GridVertices.size() * sizeof(Vertex), GridVertices.data(), GL_DYNAMIC_DRAW);
+		glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(GridVertices.size()));
+	}
+
+	static void DrawShortestPath()
+	{
+		ShortestPathShader.use();
+		ShortestPathShader.setFloat("uTime", static_cast<float>(glfwGetTime()));
+		ShortestPathShader.setBool("uIsShortestPath", true);
+		glBindVertexArray(ShortestPathVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, ShortestPathVBO);
+		glBufferData(GL_ARRAY_BUFFER, ShortestPathVertices.size() * sizeof(Vertex), ShortestPathVertices.data(), GL_DYNAMIC_DRAW);
+		glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(ShortestPathVertices.size()));
+	}
+
+	static void DrawLongestPath()
+	{
+		LongestPathShader.use();
+		LongestPathShader.setFloat("uTime", static_cast<float>(glfwGetTime()));
+		LongestPathShader.setBool("uIsShortestPath", false);
+		glBindVertexArray(LongestPathVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, LongestPathVBO);
+		glBufferData(GL_ARRAY_BUFFER, LongestPathVertices.size() * sizeof(Vertex), LongestPathVertices.data(), GL_DYNAMIC_DRAW);
+		glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(LongestPathVertices.size()));
+	}
+
+	static void AddGridLine(float x1, float y1, float x2, float y2)
+	{
+		AddLine(x1, y1, x2, y2, GridVertices);
+	}
+
+	static void AddShortestPathLine(float x1, float y1, float x2, float y2)
+	{
+		AddLine(x1, y1, x2, y2, ShortestPathVertices);
+	}
+
+	static void AddLongestPathLine(float x1, float y1, float x2, float y2)
+	{
+		AddLine(x1, y1, x2, y2, LongestPathVertices);
 	}
 
 	static void CleanUp()
 	{
-		glDeleteVertexArrays(1, &VAO);
-		glDeleteBuffers(1, &VBO);
+		glDeleteVertexArrays(1, &GridVAO);
+		glDeleteBuffers(1, &GridVBO);
+		glDeleteVertexArrays(1, &ShortestPathVAO);
+		glDeleteBuffers(1, &ShortestPathVBO);
+		glDeleteVertexArrays(1, &LongestPathVAO);
+		glDeleteBuffers(1, &LongestPathVBO);
 		glfwDestroyWindow(Window);
 		glfwTerminate();
 	}
@@ -108,11 +170,23 @@ public:
 	static const unsigned int SCR_WIDTH = 720;
 	static const unsigned int SCR_HEIGHT = 720;
 	inline static GLFWwindow* Window = nullptr;
-	inline static unsigned int VAO = 0;
-	inline static unsigned int VBO = 0;
+
 	inline static float Rows = -1;
 	inline static float Columns = -1;
-	inline static std::vector<Vertex> Vertices;
+
+	inline static bool bShouldDrawShortestPath = false;
+	inline static bool bShouldDrawLongestPath = false;
+
+	inline static unsigned int GridVAO = 0;
+	inline static unsigned int GridVBO = 0;
+	inline static unsigned int ShortestPathVAO = 0;
+	inline static unsigned int ShortestPathVBO = 0;
+	inline static unsigned int LongestPathVAO = 0;
+	inline static unsigned int LongestPathVBO = 0;
+
+	inline static std::vector<Vertex> GridVertices;
+	inline static std::vector<Vertex> ShortestPathVertices;
+	inline static std::vector<Vertex> LongestPathVertices;
 
 private:
 	static void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -129,6 +203,8 @@ private:
 		{
 			App* app = static_cast<App*>(glfwGetWindowUserPointer(window));
 			app->GenerateMaze();
+
+
 		}
 	}
 
@@ -144,8 +220,16 @@ private:
 		return MaxClip - (y / Rows) * (MaxClip - MinClip);
 	}
 
+	static void AddLine(float x1, float y1, float x2, float y2, std::vector<Vertex>& vertices)
+	{
+		vertices.emplace_back(NormalizeX(x1), NormalizeY(y1));
+		vertices.emplace_back(NormalizeX(x2), NormalizeY(y2));
+	}
+
 private:
-	inline static Shader MazeShader;
+	inline static Shader GridShader;
+	inline static Shader ShortestPathShader;
+	inline static Shader LongestPathShader;
 	static constexpr float MinClip = -0.9f; // Maze bounds cannot extend past -0.9 in clipspace XY dimensions
 	static constexpr float MaxClip = 0.9f; // Maze bounds cannot extend past +0.9 in clipspace XY dimensions
 };

@@ -16,7 +16,7 @@ public:
 	void CleanupGrid();
 
 	friend std::ostream& operator<<(std::ostream& os, const Grid& grid);
-	void UploadVertices();
+	void UploadGridVertices();
 
 	template <typename Func>
 	void EachRow(Func&& fn)

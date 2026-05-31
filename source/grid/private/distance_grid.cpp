@@ -1,7 +1,6 @@
 #include "../public/distance_grid.h"
 #include "../public/cell.h"
 #include "../public/distances.h"
-#include <cmath>
 
 void DistanceGrid::SetDistances(const Distances& distances)
 {

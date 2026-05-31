@@ -35,7 +35,7 @@ void main()
     float randomContinuous = 0.75 + 0.5 * sin(uTime + random(floor(uv)) * 10.0);
 
     //vec3 color = vec3(0.0, randomDiscrete, 0.0); // Random greens only (Discrete)
-    //vec3 color = vec3(0.0, randomContinuous, 0.0); // Random greens only (Continuous)
+    vec3 color = vec3(0.0, randomContinuous, 0.0); // Random greens only (Continuous)
     
     vec2 uv_alt = floor(gl_FragCoord.xy / 64.0);
     float randomContinuousR = 0.7 + 0.5 * sin(uTime * 5.0 + random(floor(uv_alt)) * 100.0);
@@ -47,7 +47,7 @@ void main()
     float randomDiscreteB = random(uv_alt + DiscreteTimeUpdate(6.0));
     
     //vec3 color = vec3(randomDiscreteR, randomContinuousG, randomDiscreteB); // Discrete RGB
-    vec3 color = vec3(randomContinuousR, randomContinuousG, randomContinuousB); // Continuous RGB
+    //vec3 color = vec3(randomContinuousR, randomContinuousG, randomContinuousB); // Continuous RGB
 
     FragColor = vec4(color, 1.0);
 }

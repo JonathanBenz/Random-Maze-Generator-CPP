@@ -1,7 +1,6 @@
 #include "../public/distances.h"
 #include "../public/cell.h"
 #include "../../utils.h"
-#include <iostream>
 
 Distances::Distances(Cell* root)
 {
@@ -36,11 +35,16 @@ Distances Distances::PathTo(Cell* goal)
 	return breadcrumbs;
 }
 
+// Returns the cells in order from root to goal
 std::vector<Cell*> Distances::GetCells()
 {
+	std::multimap<unsigned int, Cell*> mapOrderedByDistance = Utils::flip_map(m_Cells);
+
 	std::vector<Cell*> cells;
-	for (auto& e : m_Cells) 
-		cells.push_back(e.first);
+	cells.reserve(mapOrderedByDistance.size());
+
+	for (auto& e : mapOrderedByDistance)
+		cells.push_back(e.second);
 
 	return cells;
 }

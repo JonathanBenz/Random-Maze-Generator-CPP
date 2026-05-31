@@ -152,9 +152,9 @@ std::ostream& operator<<(std::ostream& os, const Grid& grid)
 	return os;
 }
 
-void Grid::UploadVertices()
+void Grid::UploadGridVertices()
 {
-	Graphics::Vertices.clear();
+	Graphics::GridVertices.clear();
 
 	for (Cell* cell : m_Grid)
 	{
@@ -165,10 +165,10 @@ void Grid::UploadVertices()
 		float y2 = static_cast<float>(cell->GetRow() + 1);
 
 		// Add Lines
-		if (!cell->GetNorthNeighbor()) Graphics::AddLine(x1, y1, x2, y1);
-		if (!cell->GetWestNeighbor()) Graphics::AddLine(x1, y1, x1, y2);
+		if (!cell->GetNorthNeighbor()) Graphics::AddGridLine(x1, y1, x2, y1);
+		if (!cell->GetWestNeighbor()) Graphics::AddGridLine(x1, y1, x1, y2);
 
-		if (!cell->IsLinked(cell->GetEastNeighbor())) Graphics::AddLine(x2, y1, x2, y2);
-		if (!cell->IsLinked(cell->GetSouthNeighbor())) Graphics::AddLine(x1, y2, x2, y2);
+		if (!cell->IsLinked(cell->GetEastNeighbor())) Graphics::AddGridLine(x2, y1, x2, y2);
+		if (!cell->IsLinked(cell->GetSouthNeighbor())) Graphics::AddGridLine(x1, y2, x2, y2);
 	}
 }
