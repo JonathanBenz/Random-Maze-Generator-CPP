@@ -11,21 +11,21 @@ void AldousBroder::GenerateMaze(Grid& grid)
 	ApplyAlgorithm(grid, nullptr);
 }
 
-void AldousBroder::ApplyAlgorithm(Grid& grid, Cell* cell)
+void AldousBroder::ApplyAlgorithm(Grid& grid, Cell* _cell)
 {
-	Cell* _cell = grid.GetRandomCell();
+	Cell* cell = grid.GetRandomCell();
 	int unvisited = grid.GetSize() - 1;
 
 	while (unvisited > 0)
 	{
-		Cell* neighbor = Utils::Sample(_cell->GetNeighbors());
+		Cell* neighbor = Utils::Sample(cell->GetNeighbors());
 
 		if (neighbor->GetLinks().empty())
 		{
-			_cell->Link(neighbor);
+			cell->Link(neighbor);
 			unvisited -= 1;
 		}
 
-		_cell = neighbor;
+		cell = neighbor;
 	}
 }

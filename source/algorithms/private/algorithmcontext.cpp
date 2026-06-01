@@ -4,6 +4,7 @@
 #include "../public/binarytreestrategy.h"
 #include "../public/sidewinderstrategy.h"
 #include "../public/aldous_broder.h"
+#include "../public/wilsons.h"
 
 void AlgorithmContext::SetStrategy(MazeAlgorithm algorithm)
 {
@@ -21,8 +22,8 @@ void AlgorithmContext::SetStrategy(MazeAlgorithm algorithm)
 		m_Strategy = std::make_unique<AldousBroder>();
 		break;
 
-	case MazeAlgorithm::Wilson:
-		//m_Strategy = std::make_unique<Wilson>();
+	case MazeAlgorithm::Wilsons:
+		m_Strategy = std::make_unique<Wilsons>();
 		break;
 	}
 }

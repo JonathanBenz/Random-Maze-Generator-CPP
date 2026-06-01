@@ -10,7 +10,7 @@ enum class MazeAlgorithm
 	BinaryTree,
 	Sidewinder,
 	AldousBroder,
-	Wilson
+	Wilsons
 };
 
 class AlgorithmContext

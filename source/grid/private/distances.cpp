@@ -38,7 +38,7 @@ Distances Distances::PathTo(Cell* goal)
 // Returns the cells in order from root to goal
 std::vector<Cell*> Distances::GetCells()
 {
-	std::multimap<unsigned int, Cell*> mapOrderedByDistance = Utils::flip_map(m_Cells);
+	std::multimap<unsigned int, Cell*> mapOrderedByDistance = Utils::FlipMap(m_Cells);
 
 	std::vector<Cell*> cells;
 	cells.reserve(mapOrderedByDistance.size());
@@ -64,13 +64,13 @@ int Distances::GetDistanceFrom(const Cell* cell) const
 
 Cell* Distances::GetMaxCell() const
 {
-	std::multimap<unsigned int, Cell*> mapOrderedByDistance = Utils::flip_map(m_Cells);
+	std::multimap<unsigned int, Cell*> mapOrderedByDistance = Utils::FlipMap(m_Cells);
 	return mapOrderedByDistance.rbegin()->second;
 }
 
 unsigned int Distances::GetMaxDistance() const
 {
-	std::multimap<unsigned int, Cell*> mapOrderedByDistance = Utils::flip_map(m_Cells);
+	std::multimap<unsigned int, Cell*> mapOrderedByDistance = Utils::FlipMap(m_Cells);
 	return mapOrderedByDistance.rbegin()->first;
 }
 

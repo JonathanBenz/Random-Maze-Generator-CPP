@@ -27,14 +27,14 @@ int main()
 	//Graphics::UpdateLoop();
 	//Graphics::CleanUp();
 
-	RunDijkstraDemo(MazeAlgorithm::AldousBroder, PathType::Longest);
+	RunDijkstraDemo(MazeAlgorithm::Wilsons, PathType::Longest);
 }
 
 void RunDijkstraDemo(MazeAlgorithm mazeAlgo, PathType pathType)
 {
 	DijkstraDemo dijkstra;
-	unsigned int rows = 20;
-	unsigned int columns = 20;
+	unsigned int rows = 30;
+	unsigned int columns = 30;
 	dijkstra.SetGridSize(rows, columns);
 	dijkstra.SetMazeGenAlgorithm(mazeAlgo);
 	dijkstra.SetStartCell(rows - 1, 0);
