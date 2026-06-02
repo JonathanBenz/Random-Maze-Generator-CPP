@@ -40,11 +40,11 @@ void HuntAndKill::ApplyAlgorithm(Grid& grid, Cell* _cell)
 			current = nullptr;
 			grid.EachCell([&](Grid& grid, Cell* cell)
 				{
-					// If cell is already linked, then it is already visited. 
-					if (!cell->GetLinks().empty()) return;
-
 					// If we have completed the hunt, then return. There is no way to break early unfortunately. 
 					if (current) return;
+
+					// If cell is already linked, then it is already visited. 
+					if (!cell->GetLinks().empty()) return;
 
 					// Check for visited neighbors
 					std::vector<Cell*> visitedNeighbors;

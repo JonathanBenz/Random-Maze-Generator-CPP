@@ -27,14 +27,14 @@ int main()
 	//Graphics::UpdateLoop();
 	//Graphics::CleanUp();
 
-	RunDijkstraDemo(MazeAlgorithm::HuntAndKill, PathType::Longest);
+	RunDijkstraDemo(MazeAlgorithm::RecursiveBacktracker, PathType::None);
 }
 
 void RunDijkstraDemo(MazeAlgorithm mazeAlgo, PathType pathType)
 {
 	DijkstraDemo dijkstra;
-	unsigned int rows = 30;
-	unsigned int columns = 30;
+	unsigned int rows = 50;
+	unsigned int columns = 50;
 	dijkstra.SetGridSize(rows, columns);
 	dijkstra.SetMazeGenAlgorithm(mazeAlgo);
 	dijkstra.SetStartCell(rows - 1, 0);
@@ -42,6 +42,10 @@ void RunDijkstraDemo(MazeAlgorithm mazeAlgo, PathType pathType)
 
 	switch (pathType)
 	{
+	case PathType::None:
+		dijkstra.RunNoPaths();
+		break;
+
 	case PathType::Shortest:
 		dijkstra.RunShortestPathDemo();
 		break;

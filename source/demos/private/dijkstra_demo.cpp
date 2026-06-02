@@ -43,6 +43,14 @@ void DijkstraDemo::SetGoalCell(int row, int column)
 	m_GoalCell = m_Grid.GetCell(row, column);
 }
 
+void DijkstraDemo::RunNoPaths()
+{
+	Graphics::bShouldDrawLongestPath = false;
+	Graphics::bShouldDrawShortestPath = false;
+	if (!bIsAppInitialized) InitApp();
+	m_App.GenerateMaze();
+}
+
 void DijkstraDemo::RunShortestPathDemo()
 {
 	Graphics::bShouldDrawLongestPath = false;

@@ -79,6 +79,18 @@ const Cell* Grid::GetRandomCell() const
 	return GetCell(randRow, randColumn);
 }
 
+std::vector<Cell*> Grid::GetDeadEnds()
+{
+	std::vector<Cell*> list;
+	for (Cell* cell : m_Grid)
+	{
+		if (cell->GetLinks().size() == 1)
+			list.push_back(cell);
+	}
+
+	return list;
+}
+
 void Grid::PrepareGrid()
 {
 	m_Grid.reserve(static_cast<size_t>(m_Rows * m_Columns));

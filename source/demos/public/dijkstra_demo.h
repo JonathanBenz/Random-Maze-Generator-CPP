@@ -9,6 +9,7 @@
 
 enum class PathType 
 { 
+	None,
 	Shortest, 
 	Longest, 
 	Both
@@ -22,6 +23,7 @@ public:
 	void SetStartCell(int row, int column);
 	void SetGoalCell(int row, int column);
 
+	void RunNoPaths();
 	void RunShortestPathDemo();
 	void RunLongestPathDemo();
 	void RunBothDemos();

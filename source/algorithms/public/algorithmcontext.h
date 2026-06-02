@@ -11,7 +11,8 @@ enum class MazeAlgorithm
 	Sidewinder,
 	AldousBroder,
 	Wilsons,
-	HuntAndKill
+	HuntAndKill,
+	RecursiveBacktracker
 };
 
 class AlgorithmContext

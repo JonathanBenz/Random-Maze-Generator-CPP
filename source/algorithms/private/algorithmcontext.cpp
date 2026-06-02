@@ -6,6 +6,7 @@
 #include "../public/aldous_broder.h"
 #include "../public/wilsons.h"
 #include "../public/hunt_and_kill.h"
+#include "../public/recursive_backtracker.h"
 
 void AlgorithmContext::SetStrategy(MazeAlgorithm algorithm)
 {
@@ -29,6 +30,10 @@ void AlgorithmContext::SetStrategy(MazeAlgorithm algorithm)
 
 	case MazeAlgorithm::HuntAndKill:
 		m_Strategy = std::make_unique<HuntAndKill>();
+		break;
+
+	case MazeAlgorithm::RecursiveBacktracker:
+		m_Strategy = std::make_unique<RecursiveBacktracker>();
 		break;
 	}
 }

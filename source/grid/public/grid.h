@@ -50,6 +50,8 @@ public: // GETTERS & SETTERS
 	Cell* GetRandomCell();
 	const Cell* GetRandomCell() const;
 
+	std::vector<Cell*> GetDeadEnds();
+
 protected:
 	virtual void PrepareGrid();
 	virtual void ConfigureCells();

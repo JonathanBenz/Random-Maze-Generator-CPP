@@ -111,6 +111,8 @@ public:
 	{
 		GridShader.use();
 		GridShader.setFloat("uTime", static_cast<float>(glfwGetTime()));
+		GridShader.setFloat("uGridSize", Rows * Columns);
+		GridShader.setVec2("uResolution", glm::vec2(SCR_WIDTH, SCR_HEIGHT));
 		glBindVertexArray(GridVAO);
 		glBindBuffer(GL_ARRAY_BUFFER, GridVBO);
 		glBufferData(GL_ARRAY_BUFFER, GridVertices.size() * sizeof(Vertex), GridVertices.data(), GL_DYNAMIC_DRAW);
