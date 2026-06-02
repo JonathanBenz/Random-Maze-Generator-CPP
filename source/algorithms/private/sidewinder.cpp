@@ -1,4 +1,4 @@
-#include "../public/sidewinderstrategy.h"
+#include "../public/sidewinder.h"
 #include "../../grid/public/grid.h"
 #include "../../grid/public/cell.h"
 #include "../../utils.h"

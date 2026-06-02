@@ -1,10 +1,11 @@
 #include "../public/algorithmcontext.h"
 #include "../../grid/public/grid.h"
 #include "../public/imazealgorithms.h"
-#include "../public/binarytreestrategy.h"
-#include "../public/sidewinderstrategy.h"
+#include "../public/binarytree.h"
+#include "../public/sidewinder.h"
 #include "../public/aldous_broder.h"
 #include "../public/wilsons.h"
+#include "../public/hunt_and_kill.h"
 
 void AlgorithmContext::SetStrategy(MazeAlgorithm algorithm)
 {
@@ -24,6 +25,10 @@ void AlgorithmContext::SetStrategy(MazeAlgorithm algorithm)
 
 	case MazeAlgorithm::Wilsons:
 		m_Strategy = std::make_unique<Wilsons>();
+		break;
+
+	case MazeAlgorithm::HuntAndKill:
+		m_Strategy = std::make_unique<HuntAndKill>();
 		break;
 	}
 }

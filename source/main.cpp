@@ -27,7 +27,7 @@ int main()
 	//Graphics::UpdateLoop();
 	//Graphics::CleanUp();
 
-	RunDijkstraDemo(MazeAlgorithm::Wilsons, PathType::Longest);
+	RunDijkstraDemo(MazeAlgorithm::HuntAndKill, PathType::Longest);
 }
 
 void RunDijkstraDemo(MazeAlgorithm mazeAlgo, PathType pathType)

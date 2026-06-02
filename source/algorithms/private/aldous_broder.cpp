@@ -1,5 +1,4 @@
 #include "../public/aldous_broder.h"
-#include "../public/binarytreestrategy.h"
 #include "../../grid/public/grid.h"
 #include "../../grid/public/cell.h"
 #include "../../utils.h"

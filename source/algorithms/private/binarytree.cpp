@@ -1,4 +1,4 @@
-#include "../public/binarytreestrategy.h"
+#include "../public/binarytree.h"
 #include "../../grid/public/grid.h"
 #include "../../grid/public/cell.h"
 #include "../../utils.h"
